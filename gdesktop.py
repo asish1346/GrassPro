@@ -200,7 +200,7 @@ async def main():
 
     # Read proxies from a file
 
-    with open('local_proxies.txt', 'r') as file:
+    with open('proxies.txt', 'r') as file:
 
         local_proxies = file.read().splitlines()
 
