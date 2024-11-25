@@ -25,20 +25,20 @@ async def validate_http_proxy(proxy):
         return False
 
 async def validate_socks_proxy(proxy):
-    """Validate a SOCKS5 proxy."""
+    """Validate a SOCKS5 or SOCKS4 proxy."""
     try:
         test_url = "https://httpbin.org/ip"
         proxies = {"http": proxy, "https": proxy}
         response = requests.get(test_url, proxies=proxies, timeout=5)
-        logger.info(f"SOCKS5 Proxy validated: {proxy} - Response: {response.json()}")
+        logger.info(f"SOCKS Proxy validated: {proxy} - Response: {response.json()}")
         return True
     except Exception as e:
-        logger.warning(f"SOCKS5 Proxy validation failed for {proxy}: {e}")
+        logger.warning(f"SOCKS Proxy validation failed for {proxy}: {e}")
         return False
 
 async def validate_proxy(proxy):
     """Validate a proxy depending on its protocol."""
-    if proxy.startswith("socks5://"):
+    if proxy.startswith("socks5://") or proxy.startswith("socks4://"):
         return await validate_socks_proxy(proxy)
     elif proxy.startswith("http://") or proxy.startswith("https://"):
         return await validate_http_proxy(proxy)
